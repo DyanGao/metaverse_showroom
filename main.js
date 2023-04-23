@@ -168,8 +168,8 @@ window.addEventListener('keyup', (e) => {
 
 let prePos;
 window.addEventListener('mousemove', (e) => {
-  if (prePos) {
-    visitorMesh.rotateY((prePos - e.clientX) * 0.01);
+  if (prePos && visitorMesh) {
+    visitorMesh.rotateY(-(e.clientX - prePos) * 0.01);
   }
   prePos = e.clientX;
 });
@@ -183,29 +183,37 @@ function crossVisitor(curAction, newAction) {
   newAction.fadeIn(0.3);
 };
 
-const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-}
+// const sizes = {
+//     width: window.innerWidth,
+//     height: window.innerHeight
+// }
 
-window.addEventListener('resize', () =>
-  {
-    // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
+// window.addEventListener('resize', () =>
+//   {
+//     // Update sizes
+//     sizes.width = window.innerWidth
+//     sizes.height = window.innerHeight
 
-    // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
+//     // Update camera
+//     camera.aspect = sizes.width / sizes.height
+//     camera.updateProjectionMatrix()
 
-    // Update renderer
-    renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+//     // Update renderer
+//     renderer.setSize(sizes.width, sizes.height)
+//     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+// })
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 })
 
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
+
+  //controls.update();
 
   if (visitorMixer) {
     visitorMixer.update(0.015);

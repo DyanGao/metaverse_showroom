@@ -3,3 +3,5 @@
 * Building 3D Modell with Blender
 
 * Metaverse Website using Three.js
+
+Press 'w' to walk
